@@ -1,6 +1,14 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :update, :destroy]
 
+
+  # GET /accounts/:id/contacts
+  def account_contacts
+    @account = Account.find(params[:id])
+    @contacts = @account.contacts
+    render json: @contacts
+  end
+
   # GET /accounts
   # GET /accounts.json
   def index

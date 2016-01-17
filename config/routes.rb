@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
   # RESTful routes for accounts and messages
-  resources :accounts
-  resources :messages
+  resources :accounts, :messages
 
   # Additional message routes
   get '/messages/account/:id' =>'messages#account_messages'
   get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread'
+
+  # Addidtional account routes
+  get '/accounts/:id/contacts' => 'accounts#account_contacts'
 
   # Home route
   root 'static#index'

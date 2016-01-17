@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
     @messages.sort_by! { |message| message.created_at }
     render json: @messages
   end
-  
+
   # GET /messages/1
   # GET /messages/1.json
   def show

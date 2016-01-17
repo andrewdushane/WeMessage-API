@@ -14,6 +14,11 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'pry'
 
+# Required for Heroku
+gem 'rails_12factor', :group => :production
+
+ruby "2.2.3"
+
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 

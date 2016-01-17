@@ -12,3 +12,9 @@
 5. Run ```rake db:migrate```
 6. Run ```rails s``` to start the server.
 7. In your development environment, the server will run on localhost:3000
+
+### API Endpoints
+* Get contacts by account  
+  '/accounts/ACCOUNT_ID/contacts'
+* Get message thread
+  '/messages/sender/SENDER_ID/recipient/RECIPIENT_ID'

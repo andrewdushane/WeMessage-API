@@ -9,6 +9,22 @@ class MessagesController < ApplicationController
     render json: @messages
   end
 
+  # GET /messages/account/:id
+  def account_messages
+    @account = Account.find(params[:id])
+    @messages = @account.sent_messages + @account.received_messages
+    render json: @messages
+  end
+
+  # GET /messages/sender/:senderid/recipient/:recipientid
+  def message_thread
+    @account = Account.find(params[:senderid])
+    @messages = @account.sent_messages.where(recipient_account: params[:recipientid])
+    @messages += @account.received_messages.where(sender_account: params[:recipientid])
+    @messages.sort_by! { |message| message.created_at }
+    render json: @messages
+  end
+  
   # GET /messages/1
   # GET /messages/1.json
   def show

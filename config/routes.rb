@@ -1,13 +1,27 @@
 Rails.application.routes.draw do
+  # RESTful routes for accounts and messages
   resources :accounts
   resources :messages
+
+  # Additional message routes
   get '/messages/account/:id' =>'messages#account_messages'
   get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread'
+
+  # Home route
+  root 'static#index'
+
+  # Error routes
+  get '*not_found', to: 'static#not_found'
+  get '404' => "static#not_found"
+  get '422', :to => "static#unacceptable"
+  get '500', :to => "static#internal_error"
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

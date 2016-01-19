@@ -2,6 +2,10 @@ Rails.application.routes.draw do
   # RESTful routes for accounts and messages
   resources :accounts, :messages
 
+  post 'authenticate' => 'auth#authenticate_for_jwt'
+
+  get 'auth-controller-test' => 'auth#test'
+
   # Additional message routes
   get '/messages/account/:id' =>'messages#account_messages'
   get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread'

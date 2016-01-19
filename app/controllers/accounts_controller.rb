@@ -20,7 +20,11 @@ class AccountsController < ApplicationController
   # GET /accounts/1
   # GET /accounts/1.json
   def show
-    render json: @account
+    if @account
+      render json: @account
+    else
+      render json: @account.errors, status: :unprocessable_entity
+    end
   end
 
   # POST /accounts
@@ -58,7 +62,11 @@ class AccountsController < ApplicationController
   private
 
     def set_account
-      @account = Account.find(params[:id])
+      if @account = Account.find(params[:id])
+        return @account
+      else
+        render json: @account.errors, status: :unprocessable_entity
+      end
     end
 
     def account_params

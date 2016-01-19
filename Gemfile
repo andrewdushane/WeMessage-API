@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.2.5'
 
 gem 'rails-api'
@@ -11,6 +10,8 @@ gem 'pg'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+
+gem 'jwt'
 
 gem 'pry'
 

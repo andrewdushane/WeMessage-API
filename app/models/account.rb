@@ -10,4 +10,12 @@ class Account < ActiveRecord::Base
     association_foreign_key: :added_id
   has_many :sent_messages, :class_name => 'Message', :foreign_key => 'sender_account'
   has_many :received_messages, :class_name => 'Message', :foreign_key => 'recipient_account'
+  def self.find_by_credentials(email, password)
+    account = Account.find_by(email: email)
+    if account && account.authenticate(password)
+      return account
+    else
+      return nil
+    end
+  end
 end

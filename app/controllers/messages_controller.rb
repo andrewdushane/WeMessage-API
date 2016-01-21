@@ -25,6 +25,14 @@ class MessagesController < ApplicationController
     render json: @messages
   end
 
+  # GET /messages/sender/:senderid/recipient/:recipientid/latest
+  # Use to render latest message on contact list
+  def latest
+    @account = Account.find(params[:senderid])
+    @message = @account.sent_messages.where(recipient_account: params[:recipientid]).order(:created_at).last
+    render json: @message
+  end
+
   # GET /messages/1
   # GET /messages/1.json
   def show

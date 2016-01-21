@@ -1,9 +1,9 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :update, :destroy]
-
   # GET /messages
   # GET /messages.json
   def index
+    authenticate_request!
     @messages = Message.all
 
     render json: @messages

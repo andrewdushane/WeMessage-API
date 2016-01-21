@@ -18,6 +18,9 @@ gem 'pry'
 # Required for Heroku
 gem 'rails_12factor', :group => :production
 
+# allow external requests
+gem 'rack-cors', :require => 'rack/cors'
+
 ruby "2.2.3"
 
 # To use Jbuilder templates for JSON

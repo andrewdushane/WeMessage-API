@@ -18,6 +18,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/sender/:senderid/recipient/:recipientid
   def message_thread
+    authenticate_request!
     @account = Account.find(params[:senderid])
     @messages = @account.sent_messages.where(recipient_account: params[:recipientid])
     @messages += @account.received_messages.where(sender_account: params[:recipientid])

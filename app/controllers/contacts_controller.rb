@@ -35,6 +35,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts/account/:accountid
   def account_contacts
+    authenticate_request!
     @account = Account.find([params[:accountid]])
     @contacts = @account.contacts
     render json: @contacts

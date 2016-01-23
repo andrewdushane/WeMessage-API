@@ -3,8 +3,7 @@ Rails.application.routes.draw do
   resources :accounts, :messages, :contacts
 
   post 'authenticate' => 'auth#authenticate_for_jwt'
-
-  get 'auth-controller-test' => 'auth#test'
+  post 'register' => 'auth#create_with_jwt'
 
   # Additional message routes
   get '/messages/account/:id' =>'messages#account_messages'

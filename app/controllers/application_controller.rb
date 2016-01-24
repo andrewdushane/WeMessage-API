@@ -11,7 +11,7 @@ end
 
 
 class ApplicationController < ActionController::API
-  attr_reader :current_user
+  attr_reader :current_account
 
   # When an error occurs, respond with the proper private method below
   rescue_from AuthenticationTimeoutError, with: :authentication_timeout
@@ -26,7 +26,7 @@ class ApplicationController < ActionController::API
   # within the action method itself
   def authenticate_request!
     fail NotAuthenticatedError unless user_id_included_in_auth_token?
-    @current_user = Account.find(decoded_auth_token[:user_id])
+    @current_account = Account.find(decoded_auth_token[:user_id])
     rescue JWT::ExpiredSignature
       raise AuthenticationTimeoutError
     rescue JWT::VerificationError, JWT::DecodeError

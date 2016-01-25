@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # RESTful routes for accounts and messages
+  # RESTful routes for messages
   resources :messages
 
   # Authentication routes

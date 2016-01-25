@@ -19,9 +19,8 @@ class MessagesController < ApplicationController
   # GET /messages/sender/:senderid/recipient/:recipientid
   def message_thread
     authenticate_request!
-    @account = Account.find(params[:senderid])
-    @messages = @account.sent_messages.where(recipient_account: params[:recipientid])
-    @messages += @account.received_messages.where(sender_account: params[:recipientid])
+    @messages = @current_account.sent_messages.where(recipient_account: params[:recipientid])
+    @messages += @current_account.received_messages.where(sender_account: params[:recipientid])
     @messages.sort_by! { |message| message.created_at }
     render json: @messages
   end
@@ -43,12 +42,18 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
-
-    if @message.save
-      render json: @message, status: :created, location: @message
+    authenticate_request!
+    if @current_account.id == params[:sender_account].to_i
+      @message = Message.new(message_params)
+      if @message.save
+        render json: @message, status: :created, location: @message
+      else
+        render json: @message.errors, status: :unprocessable_entity
+      end
     else
-      render json: @message.errors, status: :unprocessable_entity
+      render json: {
+        message: 'You are not authorized to create this message.'
+        }, :status => :unauthorized
     end
   end
 
@@ -56,7 +61,6 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     @message = Message.find(params[:id])
-
     if @message.update(message_params)
       head :no_content
     else

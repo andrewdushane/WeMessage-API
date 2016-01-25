@@ -18,25 +18,26 @@ class MessagesController < ApplicationController
 
   # GET /messages/sender/:senderid/recipient/:recipientid
   def message_thread
-    authenticate_request!
-    @messages = @current_account.sent_messages.where(recipient_account: params[:recipientid])
-    @messages += @current_account.received_messages.where(sender_account: params[:recipientid])
-    @messages.sort_by! { |message| message.created_at }
+    @messages = get_message_thread(params)
     render json: @messages
   end
 
   # GET /messages/sender/:senderid/recipient/:recipientid/latest
   # Use to render latest message on contact list
   def latest
-    @account = Account.find(params[:senderid])
-    @message = @account.sent_messages.where(recipient_account: params[:recipientid]).order(:created_at).last
-    render json: @message
+    @messages = get_message_thread(params)
+    render json: @messages.last
   end
 
   # GET /messages/1
   # GET /messages/1.json
   def show
-    render json: @message
+    authenticate_request!
+    if @current_account.id == @message.sender_account || @message.recipient_account
+      render json: @message
+    else
+      render status: :unauthorized
+    end
   end
 
   # POST /messages
@@ -60,23 +61,39 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1
   # PATCH/PUT /messages/1.json
   def update
-    @message = Message.find(params[:id])
-    if @message.update(message_params)
-      head :no_content
+    authenticate_request!
+    if @current_account.id == @message.sender_account || @message.recipient_account
+      @message = Message.find(params[:id])
+      if @message.update(message_params)
+        head :no_content
+      else
+        render json: @message.errors, status: :unprocessable_entity
+      end
     else
-      render json: @message.errors, status: :unprocessable_entity
+      render status: :unauthorized
     end
   end
 
   # DELETE /messages/1
   # DELETE /messages/1.json
   def destroy
-    @message.destroy
-
-    head :no_content
+    authenticate_request!
+    if @current_account.id == @message.sender_account || @message.recipient_account
+      @message.destroy
+      head :no_content
+    else
+      render status: :unauthorized
+    end
   end
 
   private
+
+    def get_message_thread(params)
+      authenticate_request!
+      @messages = @current_account.sent_messages.where(recipient_account: params[:recipientid])
+      @messages += @current_account.received_messages.where(sender_account: params[:recipientid])
+      return @messages.sort_by! { |message| message.created_at }
+    end
 
     def set_message
       @message = Message.find(params[:id])

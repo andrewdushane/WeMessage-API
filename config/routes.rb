@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # RESTful routes for messages
-  resources :messages
+  resources :messages, :contacts
 
   # Authentication routes
   post 'authenticate' => 'auth#authenticate_for_jwt'

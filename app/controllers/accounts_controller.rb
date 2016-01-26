@@ -1,6 +1,12 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show]
 
+  # GET /accounts/search/:query
+  def search_accounts
+    @accounts = Account.select('id', 'name', 'email').where("lower(email) like ?", "%" + params[:query].downcase + "%")
+    render json: @accounts
+  end
+
 
   # GET /contacts
   def account_contacts

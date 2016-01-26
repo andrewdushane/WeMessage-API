@@ -10,10 +10,13 @@ Rails.application.routes.draw do
   get '/account-contacts' => 'accounts#account_contacts'
   get '/account/:id' => 'accounts#show'
   get '/my-account' => 'accounts#my_account'
+  get '/accounts/search/:query' => 'accounts#search_accounts'
   post '/accounts' => 'accounts#create'
   put '/my-account' => 'accounts#update'
   patch '/my-account' => 'accounts#update'
   delete '/my-account' => 'accounts#destroy'
+
+
 
   # Additional message routes
   get '/messages/account/:id' =>'messages#account_messages'

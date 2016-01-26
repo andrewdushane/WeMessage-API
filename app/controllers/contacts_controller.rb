@@ -16,12 +16,17 @@ class ContactsController < ApplicationController
   # POST /contacts
   # POST /contacts.json
   def create
-    @contact = Contact.new(contact_params)
-
-    if @contact.save
-      render json: @contact, status: :created, location: @contact
+    authenticate_request!
+    if @current_account.id == params[:adder_id].to_i || @current_account.id == params[:added_id]
+      @contact = Contact.new(contact_params)
+      if @contact.save
+        @added = Account.select('id','name','email').find(params[:added_id].to_i)
+        render json: @added, status: :created, location: @contact
+      else
+        render json: @contact.errors, status: :unprocessable_entity
+      end
     else
-      render json: @contact.errors, status: :unprocessable_entity
+      render status: :unauthorized
     end
   end
 

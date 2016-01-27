@@ -14,7 +14,7 @@ class AuthController < ApplicationController
   def create_with_jwt
     account = Account.new(account_params)
     if account.save
-      render json: authentication_payload(account), status: :created, location: account
+      render json: authentication_payload(account), status: :created
     else
       render json: account.errors, status: :unprocessable_entity
     end

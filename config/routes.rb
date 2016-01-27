@@ -7,21 +7,21 @@ Rails.application.routes.draw do
   post 'register' => 'auth#create_with_jwt'
 
   # Account routes
-  get '/account-contacts' => 'accounts#account_contacts', :as => 'account'
-  get '/account/:id' => 'accounts#show', :as => 'account'
-  get '/my-account' => 'accounts#my_account', :as => 'account'
-  get '/accounts/search/:query' => 'accounts#search_accounts', :as => 'account'
-  post '/accounts' => 'accounts#create', :as => 'account'
-  put '/my-account' => 'accounts#update', :as => 'account'
-  patch '/my-account' => 'accounts#update', :as => 'account'
-  delete '/my-account' => 'accounts#destroy', :as => 'account'
+  get '/account-contacts' => 'accounts#account_contacts'
+  get '/account/:id' => 'accounts#show'
+  get '/my-account' => 'accounts#my_account'
+  get '/accounts/search/:query' => 'accounts#search_accounts'
+  post '/accounts' => 'accounts#create'
+  put '/my-account' => 'accounts#update'
+  patch '/my-account' => 'accounts#update'
+  delete '/my-account' => 'accounts#destroy'
 
 
 
   # Additional message routes
-  get '/messages/account/:id' =>'messages#account_messages', :as => 'message'
-  get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread', :as => 'message'
-  get '/messages/sender/:senderid/recipient/:recipientid/latest' => 'messages#latest', :as => 'message'
+  get '/messages/account/:id' =>'messages#account_messages'
+  get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread'
+  get '/messages/sender/:senderid/recipient/:recipientid/latest' => 'messages#latest'
 
   # Home route
   root 'static#index'

@@ -14,7 +14,7 @@ class ContactsController < ApplicationController
     if @current_account.id == params[:adder_id].to_i || @current_account.id == params[:added_id]
       @contact = Contact.new(contact_params)
       if @contact.save
-        @added = Account.select('id','name','email').find(params[:added_id].to_i)
+        @added = Account.select('id','name','email','image').find(params[:added_id].to_i)
         render json: @added, status: :created
       else
         render json: @contact.errors, status: :unprocessable_entity

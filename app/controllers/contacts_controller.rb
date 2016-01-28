@@ -31,9 +31,11 @@ class ContactsController < ApplicationController
     if @current_account
       deleter = @current_account.id
       deleted = params[:id]
-      @to_delete = Contact.where(adder_id: deleter, added_id: deleted)
-      @to_delete.destroy
-      head :no_content
+      @to_delete = Contact.where("adder_id = :deleter and added_id = :deleted", { deleter: deleter, deleted: deleted })
+      if @to_delete
+        @to_delete.destroy
+        head :no_content
+      end
     else
       render status: :unauthorized
     end

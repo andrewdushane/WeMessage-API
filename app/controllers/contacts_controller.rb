@@ -33,7 +33,7 @@ class ContactsController < ApplicationController
       deleted = params[:id]
       @to_delete = Contact.where("adder_id = :deleter and added_id = :deleted", { deleter: deleter, deleted: deleted })
       if @to_delete
-        @to_delete.destroy
+        @to_delete.destroy_all
         head :no_content
       end
     else

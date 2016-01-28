@@ -1,11 +1,5 @@
 class ContactsController < ApplicationController
-  before_action :set_contact, only: [:show, :update, :destroy]
-
-  def index
-    @contacts = Contact.all
-
-    render json: @contacts
-  end
+  before_action :set_contact, only: [:show, :update]
 
   # GET /contacts/1
   # GET /contacts/1.json
@@ -30,12 +24,19 @@ class ContactsController < ApplicationController
     end
   end
 
-  # DELETE /contacts/1
-  # DELETE /contacts/1.json
+  # DELETE /contacts/:id
+  # :id is of account for contact to be deleted
   def destroy
-    @contact.destroy
-
-    head :no_content
+    authenticate_request!
+    if @current_account
+      deleter = @current_account.id
+      deleted = params[:id]
+      @to_delete = Contact.where(adder_id: deleter, added_id: deleted)
+      @to_delete.destroy
+      head :no_content
+    else
+      render status: :unauthorized
+    end
   end
 
   # GET /contacts/account/:accountid

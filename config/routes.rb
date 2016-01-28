@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   # RESTful routes for messages
-  resources :messages, :contacts
+  resources :messages
+
+  # Contacts routes
+  get '/contacts/:id' => 'contacts#show'
+  post '/contacts' => 'contacts#create'
+  delete '/contacts/:id' => 'contacts#destroy'
 
   # Authentication routes
   post 'authenticate' => 'auth#authenticate_for_jwt'

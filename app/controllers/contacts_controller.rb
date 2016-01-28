@@ -15,7 +15,7 @@ class ContactsController < ApplicationController
       @contact = Contact.new(contact_params)
       if @contact.save
         @added = Account.select('id','name','email').find(params[:added_id].to_i)
-        render json: @added, status: :created, location: @contact
+        render json: @added, status: :created
       else
         render json: @contact.errors, status: :unprocessable_entity
       end

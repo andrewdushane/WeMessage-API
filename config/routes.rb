@@ -24,7 +24,6 @@ Rails.application.routes.draw do
 
 
   # Additional message routes
-  get '/messages/account/:id' =>'messages#account_messages'
   get '/messages/sender/:senderid/recipient/:recipientid' => 'messages#message_thread'
   get '/messages/sender/:senderid/recipient/:recipientid/latest' => 'messages#latest'
 

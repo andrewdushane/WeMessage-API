@@ -9,13 +9,6 @@ class MessagesController < ApplicationController
     render json: @messages
   end
 
-  # GET /messages/account/:id
-  def account_messages
-    @account = Account.find(params[:id])
-    @messages = @account.sent_messages + @account.received_messages
-    render json: @messages
-  end
-
   # GET /messages/sender/:senderid/recipient/:recipientid
   def message_thread
     @messages = get_message_thread(params)

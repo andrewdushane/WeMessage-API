@@ -54,7 +54,7 @@ class AccountsController < ApplicationController
 
   # POST /my-account
   def update
-    authenticate_request
+    authenticate_request!
     if @current_account.update(account_params)
       render json: @current_account
     else

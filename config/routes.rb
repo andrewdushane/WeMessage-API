@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/my-account' => 'accounts#my_account'
   get '/accounts/search/:query' => 'accounts#search_accounts'
   post '/accounts' => 'accounts#create'
+  post 'my-account' => 'accounts#update'
   put '/my-account' => 'accounts#update'
   patch '/my-account' => 'accounts#update'
   delete '/my-account' => 'accounts#destroy'

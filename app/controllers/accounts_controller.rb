@@ -52,11 +52,23 @@ class AccountsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /my-account
+  # POST /my-account
   def update
     authenticate_request!
-    if @current_account.update(account_params)
-      head :no_content
+    if params[:name] && params[:name] != ''
+      @current_account.name = params[:name]
+    end
+    if params[:email] && params[:email] != ''
+      @current_account.email = params[:email]
+    end
+    if params[:image] && params[:image != '']
+      @current_account.image = params[:image]
+    end
+    if params[:password] && params[:password] != ''
+      @current_account.password = params[:password]
+    end
+    if @current_account.save
+      render json: @current_account
     else
       render json: @current_account.errors, status: :unprocessable_entity
     end

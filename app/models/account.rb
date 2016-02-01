@@ -1,7 +1,7 @@
 class Account < ActiveRecord::Base
   validates :email, uniqueness: { case_sensitive: false }
   validates :name, presence: true
-  validates :password, length: { in: 6..20 }
+  validates :password, length: { in: 6..20 }, allow_nil: true
   has_secure_password
   has_and_belongs_to_many :contacts,
     class_name: "Account",
